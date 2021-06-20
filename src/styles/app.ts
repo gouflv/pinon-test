@@ -1,6 +1,6 @@
-import { createGlobalStyle } from "styled-components";
-import { normalize } from "styled-normalize";
-import { px2vw } from "./px2vw";
+import { createGlobalStyle } from 'styled-components'
+import { normalize } from 'styled-normalize'
+import { px2vw } from './px2vw'
 
 export const GlobalStyle = createGlobalStyle`
   ${normalize};
@@ -15,4 +15,4 @@ export const GlobalStyle = createGlobalStyle`
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
   }
-`;
+`

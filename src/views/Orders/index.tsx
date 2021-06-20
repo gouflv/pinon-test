@@ -1,3 +1,3 @@
-import { Order } from "./Orders";
+import { Order } from './Orders'
 
-export default Order;
+export default Order

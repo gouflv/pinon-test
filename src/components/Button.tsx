@@ -1,14 +1,14 @@
-import { FC } from "react";
-import styled from "styled-components";
-import { px2vw } from "../styles/px2vw";
+import { FC } from 'react'
+import styled from 'styled-components'
+import { px2vw } from '../styles/px2vw'
 
 export const Button: FC<{ onClick?: () => void }> = (props) => {
   return (
-    <StyleButton type={"button"} onClick={props.onClick}>
+    <StyleButton type={'button'} onClick={props.onClick}>
       {props.children}
     </StyleButton>
-  );
-};
+  )
+}
 
 const StyleButton = styled.button`
   padding: ${({ theme }) =>
@@ -17,4 +17,4 @@ const StyleButton = styled.button`
   border: 1px solid ${({ theme }) => theme.borderColor.normal};
   border-radius: ${px2vw(20)};
   background-color: #fff;
-`;
+`

@@ -1,33 +1,33 @@
-import "styled-components";
+import 'styled-components'
 
-declare module "styled-components" {
+declare module 'styled-components' {
   export interface DefaultTheme {
     fonsSizes: {
-      normal: number;
-      large: number;
-      xl: number;
-    };
+      normal: number
+      large: number
+      xl: number
+    }
     colors: {
-      text: string;
-      desc: string;
-      disabled: string;
-    };
+      text: string
+      desc: string
+      disabled: string
+    }
     borderColor: {
-      normal: string;
-    };
+      normal: string
+    }
     checkbox: {
       colors: {
-        indicator: string;
-      };
-    };
+        indicator: string
+      }
+    }
     button: {
       fontSize: {
-        normal: number;
-      };
+        normal: number
+      }
       padding: {
-        x: number;
-        y: number;
-      };
-    };
+        x: number
+        y: number
+      }
+    }
   }
 }

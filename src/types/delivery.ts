@@ -1,4 +1,4 @@
 export type Delivery = {
-  timeBegin: Date;
-  timeEnd: Date;
-};
+  timeBegin: Date
+  timeEnd: Date
+}

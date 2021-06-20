@@ -1,5 +1,5 @@
-import styled from "styled-components";
-import { px2vw } from "../../styles/px2vw";
+import styled from 'styled-components'
+import { px2vw } from '../../styles/px2vw'
 
 export const StyledDeliveryItemBox = styled.div`
   display: flex;
@@ -20,7 +20,7 @@ export const StyledDeliveryItemBox = styled.div`
     flex: 0 0 auto;
     margin-left: ${px2vw(20)};
   }
-`;
+`
 
 export const StyledMeta = styled.div`
   .label {
@@ -30,4 +30,4 @@ export const StyledMeta = styled.div`
 
   .value {
   }
-`;
+`
