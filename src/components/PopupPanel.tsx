@@ -53,13 +53,13 @@ const PopupPanelBox = styled.div<{ height?: string }>`
   border-top-left-radius: ${px2vw(8)};
   border-top-right-radius: ${px2vw(8)};
 
-  background-color: #fff;
+  background-color: #f4f4f4;
 
   .action-indicator {
+    flex: 0 0 ${px2vw(20)};
     display: flex;
     align-items: center;
     justify-content: center;
-    height: ${px2vw(20)};
 
     &::after {
       content: '';
@@ -84,5 +84,6 @@ const PopupPanelBox = styled.div<{ height?: string }>`
     flex: 1;
     display: flex;
     flex-direction: column;
+    min-height: 0;
   }
 `

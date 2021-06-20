@@ -7,11 +7,6 @@ export type DeliveryTime = {
   end: Date
 }
 
-export type DeliveryDateTime = {
-  date: Date
-  time: DeliveryTime
-}
-
 export type SelectableDeliveryDateTime = {
   date: Date
   times: (DeliveryTime & {

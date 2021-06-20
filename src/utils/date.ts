@@ -12,7 +12,7 @@ export const dateRangeFormat = (
 ) => {
   options = Object.assign(options || {}, {
     dateFormat: 'D/M',
-    timeFormat: 'HH:mm'
+    timeFormat: 'H:mm'
   })
 
   const momentBegin = moment(begin)

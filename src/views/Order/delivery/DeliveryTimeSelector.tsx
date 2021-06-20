@@ -1,50 +1,84 @@
 import moment from 'moment'
-import { FC, memo, useCallback, useMemo } from 'react'
-import styled from 'styled-components'
-import { px2vw } from '../../../styles/px2vw'
-import { DeliveryDateTime, SelectableDeliveryDateTime } from '../types'
+import { FC, memo, useCallback, useEffect, useMemo, useState } from 'react'
+import { DeliveryTime, SelectableDeliveryDateTime } from '../types'
+import { isSameDay, isSameTime } from '../utils'
+import {
+  StyledDateMenu,
+  StyledDeliveryTimeSelectBox,
+  StyledTimeCheckListBox
+} from './styled'
 
 function dateFormat(date: Date) {
   const mo = moment(date)
-  return ''
+  let dayName = mo.format('dddd')
+  if (mo.isSame(moment(), 'day')) dayName = 'Today'
+  if (mo.isSame(moment().add(1, 'day'), 'day')) dayName = 'Tomorrow'
+  return `${dayName} ${mo.format('D/M')}`
 }
 
 export const DeliveryTimeSelector: FC<{
   items: SelectableDeliveryDateTime[]
-  value?: DeliveryDateTime
-  onChange: (value: DeliveryDateTime) => void
+  value?: DeliveryTime
+  onChange: (value: DeliveryTime) => void
 }> = ({ items, value, onChange }) => {
-  const dateItems = useMemo(() => {
+  const [currentDate, setCurrentDate] = useState<Date>()
+
+  useEffect(() => {
+    if (!value) return
+    setCurrentDate(moment(value.begin).startOf('day').toDate())
+  }, [value])
+
+  //#region DateMenu
+
+  const dateMenuItems = useMemo(() => {
     return items.map((dt) => dt.date)
   }, [items])
 
-  const onMenuChange = useCallback((date: Date) => {}, [])
+  const onMenuChange = useCallback((data: Date) => setCurrentDate(data), [])
+
+  //#endregion
+
+  //#region TimeCheckList
+
+  const timeCheckListItems = useMemo<
+    SelectableDeliveryDateTime['times']
+  >(() => {
+    if (!value) return []
+    const matchedItem = items.find((item) => isSameDay(item.date, value.begin))
+    return matchedItem?.times || []
+  }, [items, value])
+
+  //#endregion
 
   return (
     <StyledDeliveryTimeSelectBox>
       <DateMenu
-        items={dateItems}
-        active={value?.date}
+        items={dateMenuItems}
+        value={currentDate}
         onChange={onMenuChange}
       />
-      <div className='time-check-list'></div>
+      <TimeCheckList
+        items={timeCheckListItems}
+        value={value}
+        onChange={onChange}
+      />
     </StyledDeliveryTimeSelectBox>
   )
 }
 
 const DateMenu: FC<{
   items: Date[]
-  active?: Date
-  onChange: (date: Date) => void
-}> = ({ items, active, ...rest }) => {
+  value?: Date
+  onChange: (data: Date) => void
+}> = ({ items = [], value, ...rest }) => {
   return (
     <StyledDateMenu>
       <ol>
         {items.map((item, i) => (
           <DateMenuItem
             key={i}
-            item={item}
-            active={active === item}
+            data={item}
+            active={value && isSameDay(value, item)}
             {...rest}
           />
         ))}
@@ -54,40 +88,53 @@ const DateMenu: FC<{
 }
 
 const DateMenuItem: FC<{
-  item: Date
+  data: Date
   active?: boolean
-  onChange: (date: Date) => void
-}> = memo(({ item, active, onChange }) => {
-  const onClick = useCallback(() => onChange(item), [item, onChange])
+  onChange: (data: Date) => void
+}> = memo(({ data, active, onChange }) => {
+  const onClick = useCallback(() => onChange(data), [data, onChange])
   return (
     <li className={active ? 'active' : ''} onClick={onClick}>
-      {dateFormat(item)}
+      {dateFormat(data)}
     </li>
   )
 })
 
-const StyledDateMenu = styled.div`
-  background-color: #f4f4f4;
+const TimeCheckList: FC<{
+  items: SelectableDeliveryDateTime['times']
+  value?: DeliveryTime
+  onChange: (data: DeliveryTime) => void
+}> = ({ items, value, ...rest }) => {
+  return (
+    <StyledTimeCheckListBox>
+      <ol>
+        {items.map((item, i) => (
+          <TimeCheckListItem
+            key={i}
+            data={item}
+            active={!!value && isSameTime(item.begin, value.begin)}
+            {...rest}
+          />
+        ))}
+      </ol>
+    </StyledTimeCheckListBox>
+  )
+}
 
-  ol {
-    li {
-      min-height: ${px2vw(69)};
-    }
-  }
-`
+const TimeCheckListItem: FC<{
+  data: DeliveryTime
+  active: boolean
+  onChange: (data: DeliveryTime) => void
+}> = ({ data, active, onChange }) => {
+  const onClick = useCallback(() => onChange(data), [data, onChange])
 
-const StyledDeliveryTimeSelectBox = styled.div`
-  flex: 1;
-  display: flex;
-
-  .date-menu {
-    flex: 0 0 ${px2vw(140)};
-    min-height: 0;
-    background-color: #f4f4f4;
-  }
-
-  .time-check-list {
-    flex: 1;
-    min-height: 0;
-  }
-`
+  return (
+    <li className={active ? 'active' : ''} onClick={onClick}>
+      <i className='checkbox' />
+      <div className='content'>
+        {moment(data.begin).format('H:mm A')}-
+        {moment(data.end).format('H:mm A')}
+      </div>
+    </li>
+  )
+}

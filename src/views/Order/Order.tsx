@@ -1,9 +1,9 @@
 import moment from 'moment'
 import { FC, useState } from 'react'
 import { NavHeader, Page, PageContainer } from '../../components'
-import { DeliveryTime } from './types'
 import { DeliveryPanel } from './delivery'
 import { DeliveryEditProvider } from './delivery/useDeliveryEdit'
+import { DeliveryTime } from './types'
 
 export const Order: FC = (props) => {
   const [delivery] = useState<DeliveryTime>({
