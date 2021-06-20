@@ -11,6 +11,8 @@ export const StyledDeliveryItemBox = styled.div`
   .icon {
     flex: 0 0 auto;
     margin-right: ${px2vw(20)};
+    width: ${px2vw(20)};
+    height: ${px2vw(20)};
   }
 
   .content {
