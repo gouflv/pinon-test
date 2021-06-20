@@ -11,6 +11,7 @@ declare module 'styled-components' {
       text: string
       desc: string
       disabled: string
+      error: string
     }
     borderColor: {
       normal: string

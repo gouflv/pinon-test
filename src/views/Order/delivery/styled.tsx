@@ -84,9 +84,26 @@ export const StyledTimeCheckListBox = styled.div`
         }
       }
 
+      .content {
+        flex: 1;
+
+        .extend {
+          position: absolute;
+          color: ${({ theme }) => theme.colors.error};
+        }
+      }
+
       &.active {
         .checkbox::after {
           display: block;
+        }
+      }
+
+      &.disabled {
+        color: ${({ theme }) => theme.colors.disabled};
+
+        .checkbox {
+          border-color: ${({ theme }) => theme.colors.disabled};
         }
       }
     }

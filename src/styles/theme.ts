@@ -9,7 +9,8 @@ export const theme: DefaultTheme = {
   colors: {
     text: '#1a1a1a',
     desc: '#7c7c7c',
-    disabled: '#c4c4c4'
+    disabled: '#c4c4c4',
+    error: '#ff6e6e'
   },
   borderColor: {
     normal: '#7c7c7c'

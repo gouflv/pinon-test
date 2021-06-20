@@ -1,3 +1,4 @@
+import classNames from 'classnames'
 import moment from 'moment'
 import { FC, memo, useCallback, useEffect, useMemo, useState } from 'react'
 import { DeliveryTime, SelectableDeliveryDateTime } from '../types'
@@ -43,10 +44,10 @@ export const DeliveryTimeSelector: FC<{
   const timeCheckListItems = useMemo<
     SelectableDeliveryDateTime['times']
   >(() => {
-    if (!value) return []
-    const matchedItem = items.find((item) => isSameDay(item.date, value.begin))
+    if (!currentDate) return []
+    const matchedItem = items.find((item) => isSameDay(item.date, currentDate))
     return matchedItem?.times || []
-  }, [items, value])
+  }, [currentDate, items])
 
   //#endregion
 
@@ -122,18 +123,31 @@ const TimeCheckList: FC<{
 }
 
 const TimeCheckListItem: FC<{
-  data: DeliveryTime
+  data: SelectableDeliveryDateTime['times'][number]
   active: boolean
   onChange: (data: DeliveryTime) => void
 }> = ({ data, active, onChange }) => {
-  const onClick = useCallback(() => onChange(data), [data, onChange])
+  const onClick = useCallback(() => {
+    if (data.enable) {
+      onChange(data)
+    }
+  }, [data, onChange])
 
   return (
-    <li className={active ? 'active' : ''} onClick={onClick}>
+    <li
+      className={classNames({
+        active,
+        disabled: !data.enable
+      })}
+      onClick={onClick}
+    >
       <i className='checkbox' />
       <div className='content'>
-        {moment(data.begin).format('H:mm A')}-
-        {moment(data.end).format('H:mm A')}
+        <div className='value'>
+          {moment(data.begin).format('H:mm A')}-
+          {moment(data.end).format('H:mm A')}
+        </div>
+        {!data.enable && <div className='extend'>Slot Full</div>}
       </div>
     </li>
   )

@@ -9,23 +9,27 @@ export const DeliveryEdit: FC = (props) => {
   const { visible, params, onEditSubmit } = useDeliveryEditContext()
 
   const [selectableDateTime] = useState<SelectableDeliveryDateTime[]>(
-    // initial selectable date-time data
-    Array.from({ length: 10 }).map((_, i) => {
+    // mock selectable date-time data
+    Array.from({ length: 5 }).map((_, i) => {
       const date = moment().startOf('day').add(i, 'day').toDate()
 
-      const times = Array.from({ length: 24 * 2 }).map<
-        SelectableDeliveryDateTime['times'][number]
-      >((_, i) => {
+      const times = Array.from({ length: 24 * 2 }).reduce<
+        SelectableDeliveryDateTime['times']
+      >((res, _, i) => {
         const begin = moment(date)
           .clone()
           .add(30 * i, 'minute')
 
-        return {
-          begin: begin.toDate(),
-          end: moment(begin).clone().add(30, 'minute').toDate(),
-          enable: true
+        if (begin.hour() >= 8) {
+          res.push({
+            begin: begin.toDate(),
+            end: moment(begin).clone().add(30, 'minute').toDate(),
+            enable: Math.random() > 0.4
+          })
         }
-      })
+
+        return res
+      }, [])
 
       return { date, times }
     })
