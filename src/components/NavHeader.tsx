@@ -1,5 +1,6 @@
 import { FC } from "react";
 import styled from "styled-components";
+import { px2vw } from "../styles/px2vw";
 
 export const NavHeader: FC<{ title: string }> = (props) => (
   <StyledNavHeaderBox>
@@ -11,7 +12,7 @@ const StyledNavHeaderBox = styled.header`
   display: flex;
   align-items: center;
   justify-content: center;
-  height: 44px;
+  height: ${px2vw(44)};
   background-color: #fff;
 `;
 
