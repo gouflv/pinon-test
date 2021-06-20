@@ -6,7 +6,7 @@ import { DeliveryTimeSelector } from './DeliveryTimeSelector'
 import { useDeliveryEditContext } from './useDeliveryEditContext'
 
 export const DeliveryEdit: FC = (props) => {
-  const { visible, params, onEditSubmit } = useDeliveryEditContext()
+  const { visible, params, onEditSubmit, onClose } = useDeliveryEditContext()
 
   const [selectableDateTime] = useState<SelectableDeliveryDateTime[]>(
     // mock selectable date-time data
@@ -36,7 +36,11 @@ export const DeliveryEdit: FC = (props) => {
   )
 
   return (
-    <PopupPanel visible={visible} title={'Schedule a Delivery Time'}>
+    <PopupPanel
+      visible={visible}
+      title={'Schedule a Delivery Time'}
+      onClose={onClose}
+    >
       <DeliveryTimeSelector
         items={selectableDateTime}
         value={params}

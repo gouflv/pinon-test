@@ -1,32 +1,8 @@
 import { rgba } from 'polished'
-import { FC } from 'react'
-import { createPortal } from 'react-dom'
-import styled from 'styled-components'
-import { px2vw } from '../styles/px2vw'
+import styled, { css } from 'styled-components'
+import { px2vw } from '../../styles/px2vw'
 
-type PopupPanelProps = {
-  visible: boolean
-  title: string
-  height?: string
-}
-
-export const PopupPanel: FC<PopupPanelProps> = (props) => {
-  const { visible, title, height } = props
-
-  if (!visible) return null
-  return createPortal(
-    <PopupPanelWrapper>
-      <PopupPanelBox height={height}>
-        <div className='action-indicator' />
-        <div className='header'>{title}</div>
-        <div className='body'>{props.children}</div>
-      </PopupPanelBox>
-    </PopupPanelWrapper>,
-    document.body
-  )
-}
-
-const PopupPanelWrapper = styled.div`
+export const StyledPopupPanelWrapper = styled.div`
   position: fixed;
   top: 0;
   right: 0;
@@ -34,14 +10,14 @@ const PopupPanelWrapper = styled.div`
   left: 0;
   z-index: 1;
 
-  overflow-y: auto;
-  -webkit-overflow-scrolling: touch;
-
   background-color: ${rgba('#000', 0.5)};
   transition: background-color 200ms linear;
 `
 
-const PopupPanelBox = styled.div<{ height?: string }>`
+export const StyledPopupPanelBox = styled.div<{
+  height?: string
+  transform?: [number, number]
+}>`
   position: absolute;
   bottom: 0;
   right: 0;
@@ -52,7 +28,6 @@ const PopupPanelBox = styled.div<{ height?: string }>`
 
   border-top-left-radius: ${px2vw(8)};
   border-top-right-radius: ${px2vw(8)};
-
   background-color: #f4f4f4;
 
   .action-indicator {
