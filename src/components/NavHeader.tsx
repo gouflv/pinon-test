@@ -18,4 +18,5 @@ const StyledNavHeaderBox = styled.header`
 
 const StyledNavHeaderTitle = styled.div`
   font-size: var(--font-size-large);
+  font-weight: 500;
 `

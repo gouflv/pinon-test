@@ -16,6 +16,8 @@ export const StyledPanelBox = styled.section`
 
   .header {
     margin-bottom: ${px2vw(15)};
+    font-size: ${({ theme }) => px2vw(theme.fonsSizes.large)};
+    font-weight: 500;
   }
 
   .body {
