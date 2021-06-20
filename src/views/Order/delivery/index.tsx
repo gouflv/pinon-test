@@ -1,13 +1,14 @@
 import { FC, useCallback } from 'react'
 import { Button, Icon, Panel } from '../../../components'
 import { dateRangeFormat } from '../../../utils/date'
-import { DeliveryTime } from '../types'
+import { userOrderContext } from '../useOrder'
 import { DeliveryEdit } from './DeliveryEdit'
 import { StyledDeliveryItemBox, StyledMeta } from './styled'
-import { useDeliveryEdit } from './useDeliveryEdit'
+import { useDeliveryEditContext } from './useDeliveryEditContext'
 
-export const DeliveryPanel: FC<{ delivery: DeliveryTime }> = ({ delivery }) => {
-  const { onEdit } = useDeliveryEdit()
+export const DeliveryPanel: FC = (props) => {
+  const { delivery } = userOrderContext()
+  const { onEdit } = useDeliveryEditContext()
 
   const onEditClick = useCallback(() => onEdit(delivery), [onEdit, delivery])
 

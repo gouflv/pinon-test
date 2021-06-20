@@ -1,12 +1,12 @@
 import moment from 'moment'
-import { FC, useCallback, useState } from 'react'
+import { FC, useState } from 'react'
 import { PopupPanel } from '../../../components'
-import { DeliveryTime, SelectableDeliveryDateTime } from '../types'
+import { SelectableDeliveryDateTime } from '../types'
 import { DeliveryTimeSelector } from './DeliveryTimeSelector'
-import { useDeliveryEdit } from './useDeliveryEdit'
+import { useDeliveryEditContext } from './useDeliveryEditContext'
 
 export const DeliveryEdit: FC = (props) => {
-  const { visible, params } = useDeliveryEdit()
+  const { visible, params, onEditSubmit } = useDeliveryEditContext()
 
   const [selectableDateTime] = useState<SelectableDeliveryDateTime[]>(
     // initial selectable date-time data
@@ -31,16 +31,12 @@ export const DeliveryEdit: FC = (props) => {
     })
   )
 
-  const onChange = useCallback((val: DeliveryTime) => {
-    console.log(val)
-  }, [])
-
   return (
     <PopupPanel visible={visible} title={'Schedule a Delivery Time'}>
       <DeliveryTimeSelector
         items={selectableDateTime}
         value={params}
-        onChange={onChange}
+        onChange={onEditSubmit}
       />
     </PopupPanel>
   )

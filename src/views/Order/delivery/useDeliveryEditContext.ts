@@ -1,8 +1,11 @@
 import constate from 'constate'
 import { useState } from 'react'
 import { DeliveryTime } from '../types'
+import { userOrderContext } from '../useOrder'
 
-const [DeliveryEditProvider, useDeliveryEdit] = constate(() => {
+const [DeliveryEditProvider, useDeliveryEditContext] = constate(() => {
+  const { onDeliverySubmit } = userOrderContext()
+
   const [visible, setVisible] = useState(false)
   const [params, setParams] = useState<DeliveryTime>()
 
@@ -11,13 +14,19 @@ const [DeliveryEditProvider, useDeliveryEdit] = constate(() => {
     setVisible(true)
   }
 
+  function onEditSubmit(data: DeliveryTime) {
+    onDeliverySubmit(data)
+    setVisible(false)
+  }
+
   return {
     visible,
     params,
-    onEdit
+    onEdit,
+    onEditSubmit
   }
 })
 
 DeliveryEditProvider.displayName = 'DeliveryEditProvider'
 
-export { DeliveryEditProvider, useDeliveryEdit }
+export { DeliveryEditProvider, useDeliveryEditContext }
