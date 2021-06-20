@@ -1,5 +1,6 @@
 import { FC } from "react";
 import styled from "styled-components";
+import { px2vw } from "../styles/px2vw";
 
 export const Panel: FC<{ title: string }> = (props) => {
   return (
@@ -11,8 +12,12 @@ export const Panel: FC<{ title: string }> = (props) => {
 };
 
 export const StyledPanelBox = styled.section`
+  margin-bottom: ${px2vw(20)};
+
   .header {
+    margin-bottom: ${px2vw(15)};
   }
+
   .body {
   }
 `;

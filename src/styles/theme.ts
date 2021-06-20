@@ -15,6 +15,17 @@ export const theme: DefaultTheme = {
     normal: "#7c7c7c",
   },
   checkbox: {
-    indicator: "#ffca00",
+    colors: {
+      indicator: "#ffca00",
+    },
+  },
+  button: {
+    fontSize: {
+      normal: 14,
+    },
+    padding: {
+      x: 12,
+      y: 6,
+    },
   },
 };

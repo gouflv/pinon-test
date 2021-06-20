@@ -16,7 +16,18 @@ declare module "styled-components" {
       normal: string;
     };
     checkbox: {
-      indicator: string;
+      colors: {
+        indicator: string;
+      };
+    };
+    button: {
+      fontSize: {
+        normal: number;
+      };
+      padding: {
+        x: number;
+        y: number;
+      };
     };
   }
 }

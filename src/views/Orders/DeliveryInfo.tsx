@@ -11,7 +11,7 @@ export const DeliveryInfo: FC<{ delivery: Delivery }> = (props) => {
   return (
     <Panel title={"Delivery Information"}>
       <StyledDeliveryItemBox>
-        <Icon name="icon-time" />
+        <Icon name="time" className="icon" />
         <div className="content">
           <StyledMeta>
             <div className="label">Delivery time:</div>

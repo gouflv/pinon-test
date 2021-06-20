@@ -11,7 +11,7 @@ export const GlobalStyle = createGlobalStyle`
     sans-serif;
     font-size: ${({ theme }) => px2vw(theme.fonsSizes.normal)};
     line-height: 1.2;
-    background-color: #e5e5e5;
+    background-color: #f4f4f4;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
   }
