@@ -87,6 +87,7 @@ export const StyledTimeCheckListBox = styled.div`
       }
 
       .content {
+        position: relative;
         flex: 1;
 
         .extend {
