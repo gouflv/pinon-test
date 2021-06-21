@@ -54,6 +54,7 @@ export const StyledPopupPanelBox = styled(animated.div)<{
     justify-content: center;
     font-size: ${({ theme }) => theme.fonsSizes.xl};
     font-weight: 500;
+    touch-action: none;
   }
 
   .body {

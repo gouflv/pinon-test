@@ -121,7 +121,9 @@ export const PopupPanel: FC<PopupPanelProps> = (props) => {
     >
       <StyledPopupPanelBox height={height} style={panelStyles}>
         <div className='action-indicator' {...dragBinder()} />
-        <div className='header'>{title}</div>
+        <div className='header' {...dragBinder()}>
+          {title}
+        </div>
         <div className='body'>{props.children}</div>
       </StyledPopupPanelBox>
     </StyledPopupPanelWrapper>,

@@ -5,6 +5,11 @@ import { px2vw } from './px2vw'
 export const GlobalStyle = createGlobalStyle`
   ${normalize};
   
+  * {
+    outline: none;
+    user-select: none;
+  }
+
   body {
     font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
     'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
