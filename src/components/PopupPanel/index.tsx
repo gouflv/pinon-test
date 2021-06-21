@@ -1,5 +1,6 @@
-import { FC, useEffect, useState } from 'react'
+import { FC, useCallback, useEffect, useRef } from 'react'
 import { createPortal } from 'react-dom'
+import { useSpring } from 'react-spring'
 import { useDrag } from 'react-use-gesture'
 import { StyledPopupPanelBox, StyledPopupPanelWrapper } from './styled'
 
@@ -7,25 +8,40 @@ type PopupPanelProps = {
   visible: boolean
   title: string
   height?: string
-  onClose?: () => void
+  onClose: () => void
 }
 
 export const PopupPanel: FC<PopupPanelProps> = (props) => {
   const { visible, title, height, onClose } = props
 
-  const [transform, setTransform] = useState<[number, number]>([0, 0])
+  const wrapperRef = useRef<HTMLDivElement | null>(null)
+
+  function onWrapperClick(e: any) {
+    if (e.target === wrapperRef.current) {
+      hide()
+    }
+  }
+
+  // PanelBox
+  const [panelStyles, panelAPI] = useSpring(() => ({
+    y: '100%',
+    onRest: (result) => {
+      if (result.value.y === '100%') {
+        onClose()
+      }
+    }
+  }))
 
   const dragBinder = useDrag(
     ({ down, movement }) => {
       if (down) {
-        setTransform(movement)
+        panelAPI.set({ y: `${movement[1]}px` })
       } else {
         if (movement[1] < 50) {
-          setTransform([0, 0])
+          // resume position
+          panelAPI.start({ y: '0px' })
         } else {
-          if (typeof onClose === 'function') {
-            onClose()
-          }
+          hide()
         }
       }
     },
@@ -35,22 +51,25 @@ export const PopupPanel: FC<PopupPanelProps> = (props) => {
     }
   )
 
+  const show = useCallback(() => {
+    panelAPI.start({ y: '0px' })
+  }, [panelAPI])
+
+  const hide = useCallback(() => {
+    panelAPI.start({ y: '100%' })
+  }, [panelAPI])
+
   useEffect(() => {
     if (visible) {
-      setTransform([0, 0])
+      show()
     }
-  }, [visible])
+  }, [show, visible])
 
   if (!visible) return null
 
   return createPortal(
-    <StyledPopupPanelWrapper>
-      <StyledPopupPanelBox
-        height={height}
-        style={{
-          transform: `translate3d(${transform[0]}px, ${transform[1]}px, 0)`
-        }}
-      >
+    <StyledPopupPanelWrapper ref={wrapperRef} onClick={onWrapperClick}>
+      <StyledPopupPanelBox height={height} style={panelStyles}>
         <div className='action-indicator' {...dragBinder()} />
         <div className='header'>{title}</div>
         <div className='body'>{props.children}</div>

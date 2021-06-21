@@ -1,8 +1,9 @@
 import { rgba } from 'polished'
-import styled, { css } from 'styled-components'
+import { animated } from 'react-spring'
+import styled from 'styled-components'
 import { px2vw } from '../../styles/px2vw'
 
-export const StyledPopupPanelWrapper = styled.div`
+export const StyledPopupPanelWrapper = styled(animated.div)`
   position: fixed;
   top: 0;
   right: 0;
@@ -11,10 +12,9 @@ export const StyledPopupPanelWrapper = styled.div`
   z-index: 1;
 
   background-color: ${rgba('#000', 0.5)};
-  transition: background-color 200ms linear;
 `
 
-export const StyledPopupPanelBox = styled.div<{
+export const StyledPopupPanelBox = styled(animated.div)<{
   height?: string
   transform?: [number, number]
 }>`
@@ -35,6 +35,7 @@ export const StyledPopupPanelBox = styled.div<{
     display: flex;
     align-items: center;
     justify-content: center;
+    touch-action: none;
 
     &::after {
       content: '';
