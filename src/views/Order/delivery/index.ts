@@ -1,1 +1,1 @@
-export {DeliveryPanel} from './DeliveryPanel'
+export { DeliveryPanel } from './DeliveryPanel'
