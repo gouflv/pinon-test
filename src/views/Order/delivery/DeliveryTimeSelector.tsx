@@ -126,7 +126,7 @@ const TimeCheckListItem: FC<{
   data: SelectableDeliveryDateTime['times'][number]
   active: boolean
   onChange: (data: DeliveryTime) => void
-}> = ({ data, active, onChange }) => {
+}> = memo(({ data, active, onChange }) => {
   const onClick = useCallback(() => {
     if (data.enable) {
       onChange(data)
@@ -151,4 +151,4 @@ const TimeCheckListItem: FC<{
       </div>
     </li>
   )
-}
+})
