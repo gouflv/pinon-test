@@ -1,5 +1,5 @@
 import { rgba } from 'polished'
-import { FC, useCallback, useEffect, useRef } from 'react'
+import { FC, useCallback, useEffect, useRef, useState } from 'react'
 import { createPortal } from 'react-dom'
 import { useSpring } from 'react-spring'
 import { useDrag } from 'react-use-gesture'
@@ -23,12 +23,15 @@ export const PopupPanel: FC<PopupPanelProps> = (props) => {
     }
   }
 
-  // PanelBox
+  //#region PanelBox
+
   const [panelStyles, panelAPI] = useSpring(() => ({
     y: '100%',
     onRest: (result) => {
       if (needClose.current) {
-        onClose()
+        onHiden()
+      } else {
+        onShown()
       }
     }
   }))
@@ -52,10 +55,17 @@ export const PopupPanel: FC<PopupPanelProps> = (props) => {
     }
   )
 
-  // Wrapper
+  //#endregion
+
+  //#region Wrapper
+
   const [wrapperStyles, wrapperAPI] = useSpring(() => ({
     backgroundColor: rgba('#000', 0)
   }))
+
+  //#endregion
+
+  //#region Motions
 
   const needClose = useRef(false)
 
@@ -75,13 +85,33 @@ export const PopupPanel: FC<PopupPanelProps> = (props) => {
     })
   }, [panelAPI, wrapperAPI])
 
+  //#endregion
+
+  //#region Open Control
+
+  const [open, setOpen] = useState(visible)
+
+  function onShown() {
+    //
+  }
+
+  function onHiden() {
+    setOpen(false)
+    onClose()
+  }
+
   useEffect(() => {
     if (visible) {
+      setOpen(true)
       show()
+    } else {
+      hide()
     }
-  }, [show, visible])
+  }, [show, hide, visible])
 
-  if (!visible) return null
+  //#endregion
+
+  if (!open) return null
 
   return createPortal(
     <StyledPopupPanelWrapper
