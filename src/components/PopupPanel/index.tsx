@@ -1,3 +1,4 @@
+import { rgba } from 'polished'
 import { FC, useCallback, useEffect, useRef } from 'react'
 import { createPortal } from 'react-dom'
 import { useSpring } from 'react-spring'
@@ -26,7 +27,7 @@ export const PopupPanel: FC<PopupPanelProps> = (props) => {
   const [panelStyles, panelAPI] = useSpring(() => ({
     y: '100%',
     onRest: (result) => {
-      if (result.value.y === '100%') {
+      if (needClose.current) {
         onClose()
       }
     }
@@ -51,13 +52,28 @@ export const PopupPanel: FC<PopupPanelProps> = (props) => {
     }
   )
 
+  // Wrapper
+  const [wrapperStyles, wrapperAPI] = useSpring(() => ({
+    backgroundColor: rgba('#000', 0)
+  }))
+
+  const needClose = useRef(false)
+
   const show = useCallback(() => {
+    needClose.current = false
     panelAPI.start({ y: '0px' })
-  }, [panelAPI])
+    wrapperAPI.start({
+      backgroundColor: rgba('#000', 0.5)
+    })
+  }, [panelAPI, wrapperAPI])
 
   const hide = useCallback(() => {
-    panelAPI.start({ y: '100%' })
-  }, [panelAPI])
+    needClose.current = true
+    panelAPI.start({ y: `${window.screen.height}px` })
+    wrapperAPI.start({
+      backgroundColor: rgba('#000', 0)
+    })
+  }, [panelAPI, wrapperAPI])
 
   useEffect(() => {
     if (visible) {
@@ -68,7 +84,11 @@ export const PopupPanel: FC<PopupPanelProps> = (props) => {
   if (!visible) return null
 
   return createPortal(
-    <StyledPopupPanelWrapper ref={wrapperRef} onClick={onWrapperClick}>
+    <StyledPopupPanelWrapper
+      ref={wrapperRef}
+      style={wrapperStyles}
+      onClick={onWrapperClick}
+    >
       <StyledPopupPanelBox height={height} style={panelStyles}>
         <div className='action-indicator' {...dragBinder()} />
         <div className='header'>{title}</div>
